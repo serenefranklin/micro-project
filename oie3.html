@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Picsart OIE - Online Image Editor</title>
+    <style>
+        /* Add your CSS styles here */
+    
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #927DFC; /* Black */
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Rest of the CSS styles... */
+
+    
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        select {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            margin-bottom: 10px;
+        }
+
+        #editor img {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .filters,
+        .resize,
+        .compress,
+        .download {
+            margin-bottom: 20px;
+        }
+
+        .filters h2,
+        .resize h2,
+        .compress h2,
+        .download h2 {
+            margin-top: 0;
+        }
+
+        .ratio-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .ratio-container label {
+            margin-right: 10px;
+        }
+
+        .download input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .download label {
+            margin-right: 15px;
+        }
+
+        .actions button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="landing">
+            <h1>Welcome to Picsart OIE - Online Image Editor</h1>
+            <p>Experience the Ecstasy of Editing like never before...!!!</p>
+            <button onclick="goToSignupPage()">Sign Up</button><br>
+            <button onclick="goToLoginPage()">Login</button>
+        </div>
+
+        <div id="signup" style="display: none;">
+            <h1>Sign Up</h1>
+            <input type="text" id="newUsername" placeholder="Username">
+            <input type="password" id="newPassword" placeholder="Password">
+            <input type="text" id="name" placeholder="Name">
+            <input type="number" id="age" placeholder="Age">
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            <input type="email" id="email" placeholder="Email">
+            <label for="receiveNotifications">Receive Notifications:</label>
+            <input type="checkbox" id="receiveNotifications">
+            <button onclick="signup()">Sign Up</button> <br><br><br>
+        </div>
+
+        <div id="login" style="display: none;">
+            <h1>Login</h1>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+
+        <div id="editor" style="display: none;">
+            <h1>Image Editor</h1>
+            <input type="file" id="upload" onchange="uploadImage()">
+            <img id="image" src="#" alt="Uploaded Image">
+
+            <div class="filters">
+                <h2>Filters</h2>
+                <label for="brightness">Brightness:</label>
+                <input type="range" id="brightness" min="0" max="200" value="100" oninput="applyFilters()">
+                <br>
+                <label for="opacity">Opacity:</label>
+                <input type="range" id="opacity" min="0" max="100" value="100" oninput="applyFilters()">
+                <br>
+                <label for="contrast">Contrast:</label>
+                <input type="range" id="contrast" min="0" max="200" value="100" oninput="applyFilters()">
+                <br>
+                <label for="blur">Blur:</label>
+                <input type="range" id="blur" min="0" max="10" value="0" oninput="applyFilters()">
+                <br>
+                <label for="blackAndWhite">Black and White:</label>
+                <input type="checkbox" id="blackAndWhite" onchange="applyFilters()">
+                <br>
+            </div>
+
+            <div class="resize">
+                <h2>Resize</h2>
+                <div class="ratio-container">
+                    <label for="ratio">Ratio:</label>
+                    <input type="checkbox" id="ratio" onchange="toggleRatioLock()">
+                </div>
+                <label for="width">Width:</label>
+                <input type="number" id="width" min="10" max="2000" value="100">
+                <label for="height">Height:</label>
+                <input type="number" id="height" min="10" max="2000" value="100">
+                <br>
+                <label for="resizeToFit">Resize to Fit:</label>
+                <select id="resizeToFit" onchange="resizeToFit()">
+                    <option value="none">None</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="twitter">Twitter</option>
+                </select>
+            </div>
+
+            <div class="compress">
+                <h2>Compress</h2>
+                <label for="quality">Quality (1-100):</label>
+                <input type="number" id="quality" min="1" max="100" value="100">
+                <button onclick="compressImage()">Compress</button>
+            </div>
+
+            <div class="download">
+                <h2>Download Quality</h2>
+                <input type="radio" id="normal" name="downloadQuality" value="normal" checked>
+                <label for="normal">Normal</label>
+                <input type="radio" id="hd" name="downloadQuality" value="hd">
+                <label for="hd">HD</label>
+                <input type="radio" id="4k" name="downloadQuality" value="4k">
+                <label for="4k">4K</label>
+            </div>
+
+            <button onclick="applyFilters()">Apply Filters</button><br>
+            <button onclick="downloadImage()">Download Result</button>
+        </div>
+
+        <script>
+            var registeredUsername;
+            var registeredPassword;
+
+            function goToSignupPage() {
+                document.getElementById('landing').style.display = "none";
+                document.getElementById('signup').style.display = "block";
+            }
+
+            function signup() {
+                var newUsername = document.getElementById('newUsername').value;
+                var newPassword = document.getElementById('newPassword').value;
+                var name = document.getElementById('name').value;
+                var age = document.getElementById('age').value;
+                var gender = document.getElementById('gender').value;
+                var email = document.getElementById('email').value;
+                var receiveNotifications = document.getElementById('receiveNotifications').checked;
+
+                // Simple registration validation
+                if (newUsername && newPassword && name && age && email) {
+                    alert("Registration successful! You can now log in.");
+                    registeredUsername = newUsername;
+                    registeredPassword = newPassword;
+                    document.getElementById('signup').style.display = "none";
+                    document.getElementById('login').style.display = "block";
+                } else {
+                    alert("Please fill in all the required fields.");
+                }
+            }
+
+            function goToLoginPage() {
+                document.getElementById('landing').style.display = "none";
+                document.getElementById('login').style.display = "block";
+            }
+
+            function login() {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+
+                // Simple login validation
+                if (username === registeredUsername && password === registeredPassword) {
+                    document.getElementById('login').style.display = "none";
+                    document.getElementById('editor').style.display = "block";
+                    // Call any additional functions or perform actions upon successful login
+                } else {
+                    alert("Invalid username or password. Please try again.");
+                }
+            }
+
+            function uploadImage() {
+                var fileInput = document.getElementById('upload');
+                var file = fileInput.files[0];
+
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var image = document.getElementById('image');
+                        image.src = e.target.result;
+                        compressedImage = null;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            function toggleRatioLock() {
+                var ratioCheckbox = document.getElementById('ratio');
+                ratioLock = ratioCheckbox.checked;
+                document.getElementById('width').disabled = ratioLock;
+                document.getElementById('height').disabled = ratioLock;
+            }
+
+            function applyFilters() {
+                var image = document.getElementById('image');
+                var brightness = document.getElementById('brightness').value;
+                var opacity = document.getElementById('opacity').value;
+                var contrast = document.getElementById('contrast').value;
+                var blur = document.getElementById('blur').value;
+                var blackAndWhite = document.getElementById('blackAndWhite').checked;
+
+                image.style.filter = `
+                    brightness(${brightness}%)
+                    opacity(${opacity}%)
+                    contrast(${contrast}%)
+                    blur(${blur}px)
+                    ${blackAndWhite ? 'grayscale(100%)' : ''}
+                `;
+
+                // Update the compressed image if it exists
+                if (compressedImage) {
+                    image.src = compressedImage;
+                }
+            }
+
+            function resizeToFit() {
+                var image = document.getElementById('image');
+                var widthInput = document.getElementById('width');
+                var heightInput = document.getElementById('height');
+                var resizeToFit = document.getElementById('resizeToFit').value;
+
+                switch (resizeToFit) {
+                    case 'instagram':
+                        widthInput.value = 1080;
+                        heightInput.value = 1080;
+                        break;
+                    case 'whatsapp':
+                        widthInput.value = 800;
+                        heightInput.value = 800;
+                        break;
+                    case 'facebook':
+                        widthInput.value = 1200;
+                        heightInput.value = 628;
+                        break;
+                    case 'pinterest':
+                        widthInput.value = 1000;
+                        heightInput.value = 1500;
+                        break;
+                    case 'twitter':
+                        widthInput.value = 1200;
+                        heightInput.value = 675;
+                        break;
+                    case 'none':
+                        // Do nothing
+                        break;
+                }
+            }
+
+            function compressImage() {
+                var image = document.getElementById('image');
+                var quality = document.getElementById('quality').value;
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                compressedImage = canvas.toDataURL('image/jpeg', quality / 100);
+                image.src = compressedImage;
+            }
+
+            function downloadImage() {
+                var image = document.getElementById('image');
+                var downloadQuality = document.querySelector('input[name="downloadQuality"]:checked').value;
+                var filename = 'image.jpg';
+                var link = document.createElement('a');
+                link.href = image.src;
+                link.download = filename;
+                link.style.display = "none";
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        </script>
+    </div>
+</body>
+</html>
